@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Rakuten Mobile（模擬）</title>
 
-<!-- M PLUS 1 SemiBold -->
 <link href="https://fonts.googleapis.com/css2?family=M+PLUS+1:wght@600&display=swap" rel="stylesheet">
 
 <style>
@@ -25,30 +24,23 @@ body {
   align-items: center;
 }
 
-.header-title {
-  font-size: 16px;
-}
-
-.menu-btn {
-  font-size: 22px;
-  cursor: pointer;
-}
-
 /* ===== メイン ===== */
 .container {
   padding: 16px;
 }
 
-.status {
+.card {
   background: #fff;
-  padding: 14px;
   border-radius: 12px;
-  font-size: 14px;
+  padding: 14px;
   margin-bottom: 16px;
+  font-size: 14px;
 }
 
-.status div {
-  margin-bottom: 6px;
+.card-title {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 8px;
 }
 
 /* ===== 円 ===== */
@@ -56,12 +48,10 @@ body {
   position: relative;
   width: 220px;
   height: 220px;
-  margin: 20px auto;
+  margin: 10px auto 0;
 }
 
-svg {
-  transform: rotate(-90deg);
-}
+svg { transform: rotate(-90deg); }
 
 .bg {
   fill: none;
@@ -90,15 +80,13 @@ svg {
   text-align: center;
   font-size: 14px;
   color: #666;
+  margin-top: 8px;
 }
 
-/* ===== ハンバーガーメニュー ===== */
+/* ===== ハンバーガー ===== */
 .overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  inset: 0;
   background: rgba(0,0,0,0.4);
   display: none;
 }
@@ -106,26 +94,23 @@ svg {
 .drawer {
   position: fixed;
   top: 0;
-  right: -260px;
-  width: 260px;
+  right: -280px;
+  width: 280px;
   height: 100%;
   background: #fff;
-  padding: 16px;
   transition: right 0.3s ease;
 }
 
-.drawer.open {
-  right: 0;
-}
+.drawer.open { right: 0; }
+.overlay.show { display: block; }
 
-.overlay.show {
-  display: block;
-}
-
-.drawer h3 {
-  margin-top: 0;
-  font-size: 15px;
-  margin-bottom: 12px;
+.drawer-header {
+  background: #bf0000;
+  color: #fff;
+  padding: 14px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .drawer ul {
@@ -135,14 +120,9 @@ svg {
 }
 
 .drawer li {
-  padding: 12px 0;
+  padding: 14px 16px;
   border-bottom: 1px solid #eee;
   font-size: 14px;
-  cursor: pointer;
-}
-
-.drawer li:last-child {
-  border-bottom: none;
 }
 
 .drawer .important {
@@ -153,37 +133,45 @@ svg {
 
 <body>
 
-<!-- ヘッダー -->
 <div class="header">
-  <div class="header-title">Rakuten Mobile</div>
-  <div class="menu-btn" onclick="openMenu()">☰</div>
+  <div>Rakuten Mobile</div>
+  <div onclick="openMenu()">☰</div>
 </div>
 
-<!-- メイン -->
 <div class="container">
-  <div class="status">
+
+  <div class="card">
     <div>提供通信：Rakuten</div>
-    <div>通信状態：良好</div>
     <div>通信方式：5G</div>
+    <div>通信状態：良好</div>
   </div>
 
-  <div class="circle-wrap">
-    <svg width="220" height="220">
-      <circle class="bg" cx="110" cy="110" r="90"></circle>
-      <circle class="progress" cx="110" cy="110" r="90"></circle>
-    </svg>
-    <div class="center-text">無制限</div>
+  <div class="card">
+    <div class="card-title">今月のデータ通信量（2026年2月）</div>
+    <div class="circle-wrap">
+      <svg width="220" height="220">
+        <circle class="bg" cx="110" cy="110" r="90"/>
+        <circle class="progress" cx="110" cy="110" r="90"/>
+      </svg>
+      <div class="center-text">無制限</div>
+    </div>
+    <div class="label">高速データ通信</div>
   </div>
 
-  <div class="label">今月のデータ通信量</div>
+  <div class="card">
+    ※ 本画面はデモ表示です。<br>
+    実際の通信量・速度を示すものではありません。
+  </div>
+
 </div>
 
-<!-- オーバーレイ -->
 <div class="overlay" onclick="closeMenu()"></div>
 
-<!-- ドロワー -->
-<div class="drawer" id="drawer">
-  <h3>メニュー</h3>
+<div class="drawer">
+  <div class="drawer-header">
+    <div>メニュー</div>
+    <div onclick="closeMenu()">✕</div>
+  </div>
   <ul>
     <li>利用状況</li>
     <li>料金・お支払い</li>
@@ -198,7 +186,6 @@ function openMenu() {
   document.querySelector('.drawer').classList.add('open');
   document.querySelector('.overlay').classList.add('show');
 }
-
 function closeMenu() {
   document.querySelector('.drawer').classList.remove('open');
   document.querySelector('.overlay').classList.remove('show');
