@@ -39,21 +39,14 @@ body {
   color: #bf0000;
 }
 
-.notice-title span {
-  margin-left: 8px;
-}
-
 .notice-detail {
   margin-top: 8px;
   font-size: 13px;
-  color: #333;
   display: none;
 }
 
-/* ===== メイン ===== */
-.container {
-  padding: 16px;
-}
+/* ===== 共通 ===== */
+.container { padding: 16px; }
 
 .card {
   background: #fff;
@@ -64,12 +57,14 @@ body {
 }
 
 .card-title {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   font-size: 13px;
   color: #666;
   margin-bottom: 10px;
+}
+
+.sub {
+  font-size: 12px;
+  color: #888;
 }
 
 /* ===== 利用料金 ===== */
@@ -78,43 +73,16 @@ body {
   color: #bf0000;
 }
 
-.sub {
-  font-size: 12px;
-  color: #888;
-}
-
-/* ===== ユーザーID ===== */
-.user-id {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.copy-btn {
-  font-size: 12px;
-  background: #f5f5f5;
+/* ===== ボタン ===== */
+.action-btn {
+  width: 100%;
   border: none;
-  padding: 6px 10px;
-  border-radius: 6px;
+  background: #bf0000;
+  color: #fff;
+  padding: 12px;
+  border-radius: 10px;
+  font-size: 14px;
   cursor: pointer;
-  font-family: 'M PLUS 1', sans-serif;
-}
-
-.copy-msg {
-  margin-top: 6px;
-  font-size: 12px;
-  color: #bf0000;
-  display: none;
-}
-
-/* ===== プルダウン ===== */
-.card-title select {
-  border: none;
-  background: #f5f5f5;
-  padding: 4px 8px;
-  border-radius: 6px;
-  font-family: 'M PLUS 1', sans-serif;
-  font-size: 12px;
 }
 
 /* ===== 円表示 ===== */
@@ -157,19 +125,7 @@ svg { transform: rotate(-90deg); }
   margin-top: 8px;
 }
 
-/* ===== ボタン ===== */
-.action-btn {
-  width: 100%;
-  border: none;
-  background: #bf0000;
-  color: #fff;
-  padding: 12px;
-  border-radius: 10px;
-  font-size: 14px;
-  cursor: pointer;
-}
-
-/* ===== ハンバーガーメニュー ===== */
+/* ===== ハンバーガー ===== */
 .overlay {
   position: fixed;
   inset: 0;
@@ -184,7 +140,7 @@ svg { transform: rotate(-90deg); }
   width: 280px;
   height: 100%;
   background: #fff;
-  transition: right 0.3s ease;
+  transition: right 0.3s;
 }
 
 .drawer.open { right: 0; }
@@ -196,23 +152,6 @@ svg { transform: rotate(-90deg); }
   padding: 14px 16px;
   display: flex;
   justify-content: space-between;
-  align-items: center;
-}
-
-.drawer ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.drawer li {
-  padding: 14px 16px;
-  border-bottom: 1px solid #eee;
-  font-size: 14px;
-}
-
-.drawer .important {
-  color: #bf0000;
 }
 </style>
 </head>
@@ -226,38 +165,26 @@ svg { transform: rotate(-90deg); }
 
 <!-- 重要なお知らせ -->
 <div class="notice" onclick="toggleNotice()">
-  <div class="notice-title">
-    ⚠️ <span>重要なお知らせ</span>
-  </div>
+  <div class="notice-title">⚠️ 重要なお知らせ</div>
   <div class="notice-detail" id="noticeDetail">
-    現在、一部地域で通信が不安定になる場合があります。（模擬）
+    一部地域で通信が不安定になる場合があります。（模擬）
   </div>
 </div>
 
 <div class="container">
 
-  <!-- 利用料金（トップ） -->
+  <!-- 利用料金 -->
   <div class="card">
     <div class="card-title">今月のご利用料金</div>
     <div class="price">¥2,980</div>
-    <div class="sub">※ 無制限プラン（模擬表示）</div>
-  </div>
-
-  <!-- ユーザーID -->
-  <div class="card">
-    <div class="card-title">ユーザーID</div>
-    <div class="user-id">
-      <span id="userId">RM-1234-5678</span>
-      <button class="copy-btn" onclick="copyUserId()">コピー</button>
-    </div>
-    <div class="copy-msg" id="copyMsg">コピーしました</div>
+    <div class="sub">無制限プラン（模擬）</div>
   </div>
 
   <!-- Nメール -->
   <div class="card">
     <div class="card-title">Nメール</div>
-    <div>未読メール：2件</div>
-    <div class="sub">Rakuten独自のセキュアメールサービス（模擬）</div>
+    <div class="sub" id="nmailDesc"></div>
+    <button class="action-btn" id="nmailBtn" onclick="handleNMail()"></button>
   </div>
 
   <!-- 通信情報 -->
@@ -286,43 +213,65 @@ svg { transform: rotate(-90deg); }
       <div class="center-text">無制限</div>
     </div>
 
-    <div class="label" id="usageLabel">
-      高速データ通信（2026年2月）
-    </div>
+    <div class="label" id="usageLabel">高速データ通信（2026年2月）</div>
   </div>
 
   <!-- 電波改善 -->
   <div class="card">
     <div class="card-title">電波改善のご要望</div>
-    <button class="action-btn" onclick="openForm()">
+    <button class="action-btn" onclick="alert('電波改善フォーム（模擬）')">
       電波改善フォームへ
     </button>
-  </div>
-
-  <!-- 注意 -->
-  <div class="card sub">
-    ※ 本画面はデモ（模擬）表示です。
   </div>
 
 </div>
 
 <div class="overlay" onclick="closeMenu()"></div>
-
 <div class="drawer">
   <div class="drawer-header">
     <div>メニュー</div>
     <div onclick="closeMenu()">✕</div>
   </div>
-  <ul>
-    <li>利用状況</li>
-    <li>料金・お支払い</li>
-    <li>Nメール</li>
-    <li>各種設定</li>
-    <li class="important">ログアウト</li>
-  </ul>
 </div>
 
 <script>
+function toggleNotice() {
+  const d = document.getElementById('noticeDetail');
+  d.style.display = d.style.display === 'block' ? 'none' : 'block';
+}
+
+function changeMonth() {
+  const s = document.getElementById('monthSelect');
+  const l = document.getElementById('usageLabel');
+  l.textContent = `高速データ通信（${s.options[s.selectedIndex].text}）`;
+}
+
+/* ===== Nメール状態管理 ===== */
+function updateNMailUI() {
+  const status = localStorage.getItem('nmail');
+  const btn = document.getElementById('nmailBtn');
+  const desc = document.getElementById('nmailDesc');
+
+  if (status === 'enabled') {
+    btn.textContent = '詳細';
+    desc.textContent = 'Nメールはご利用中です';
+  } else {
+    btn.textContent = '申込';
+    desc.textContent = '独自ドメインのセキュアメール（模擬）';
+  }
+}
+
+function handleNMail() {
+  const status = localStorage.getItem('nmail');
+  if (status === 'enabled') {
+    alert('Nメール詳細画面（模擬）');
+  } else {
+    localStorage.setItem('nmail', 'enabled');
+    alert('Nメールを申し込みました（模擬）');
+    updateNMailUI();
+  }
+}
+
 function openMenu() {
   document.querySelector('.drawer').classList.add('open');
   document.querySelector('.overlay').classList.add('show');
@@ -333,32 +282,7 @@ function closeMenu() {
   document.querySelector('.overlay').classList.remove('show');
 }
 
-function toggleNotice() {
-  const d = document.getElementById('noticeDetail');
-  d.style.display = d.style.display === 'block' ? 'none' : 'block';
-}
-
-function changeMonth() {
-  const s = document.getElementById('monthSelect');
-  const l = document.getElementById('usageLabel');
-  const map = {
-    "2026-02": "高速データ通信（2026年2月）",
-    "2026-01": "高速データ通信（2026年1月）",
-    "2025-12": "高速データ通信（2025年12月）"
-  };
-  l.textContent = map[s.value];
-}
-
-function copyUserId() {
-  navigator.clipboard.writeText(document.getElementById('userId').textContent);
-  const m = document.getElementById('copyMsg');
-  m.style.display = 'block';
-  setTimeout(() => m.style.display = 'none', 2000);
-}
-
-function openForm() {
-  alert("電波改善フォーム（模擬）を開きます");
-}
+updateNMailUI();
 </script>
 
 </body>
