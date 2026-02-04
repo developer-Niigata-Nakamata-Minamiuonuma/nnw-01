@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>通信量確認</title>
+<title>Rakuten Mobile（模擬）</title>
 
 <link href="https://fonts.googleapis.com/css2?family=M+PLUS+1:wght@600&display=swap" rel="stylesheet">
 
@@ -20,52 +20,31 @@ body {
   color: #fff;
   padding: 14px 16px;
   display: flex;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
 }
 
-.menu-btn {
-  font-size: 22px;
+/* ===== 重要なお知らせ ===== */
+.notice {
+  background: #fff4f4;
+  border-bottom: 1px solid #ffd6d6;
+  padding: 12px 16px;
   cursor: pointer;
 }
 
-/* ===== サイドメニュー（右） ===== */
-.sidebar {
-  position: fixed;
-  top: 0;
-  right: -260px;
-  width: 240px;
-  height: 100%;
-  background: #fff;
-  box-shadow: -2px 0 6px rgba(0,0,0,0.2);
-  transition: right 0.3s;
-  padding: 16px;
-  z-index: 100;
+.notice-title {
+  color: #bf0000;
 }
 
-.sidebar.open {
-  right: 0;
+.notice-detail {
+  margin-top: 8px;
+  font-size: 13px;
+  display: none;
 }
 
-.sidebar a {
-  display: block;
-  text-decoration: none;
-  color: #333;
-  padding: 12px 0;
-  border-bottom: 1px solid #eee;
-}
-
-/* ===== メイン ===== */
+/* ===== 共通 ===== */
 .container {
   padding: 16px;
-}
-
-.notice {
-  background: #fff3cd;
-  border-radius: 10px;
-  padding: 12px;
-  font-size: 13px;
-  margin-bottom: 16px;
 }
 
 .card {
@@ -73,159 +52,227 @@ body {
   border-radius: 12px;
   padding: 14px;
   margin-bottom: 16px;
+  font-size: 14px;
 }
 
 .card-title {
-  font-size: 14px;
+  font-size: 13px;
+  color: #666;
   margin-bottom: 10px;
 }
 
+.sub {
+  font-size: 12px;
+  color: #888;
+}
+
 /* ===== 利用料金 ===== */
-.fee {
-  font-size: 22px;
-  font-weight: bold;
-}
-
-/* ===== 通信量 ===== */
-.usage-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.circle {
-  width: 160px;
-  height: 160px;
-  border-radius: 50%;
-  border: 10px solid #bf0000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 16px auto;
-  font-size: 18px;
-}
-
-select {
-  padding: 6px;
-  border-radius: 6px;
+.price {
+  font-size: 28px;
+  color: #bf0000;
 }
 
 /* ===== ボタン ===== */
-.btn {
-  display: block;
-  text-align: center;
+.action-btn {
+  width: 100%;
+  border: none;
+  background: #bf0000;
+  color: #fff;
   padding: 12px;
   border-radius: 10px;
-  text-decoration: none;
-  margin-top: 10px;
+  font-size: 14px;
+  cursor: pointer;
 }
 
-.btn-outline {
-  border: 1px solid #bf0000;
+/* ===== データ通信量 ===== */
+.circle-wrap {
+  position: relative;
+  width: 220px;
+  height: 220px;
+  margin: 10px auto 0;
+}
+
+svg { transform: rotate(-90deg); }
+
+.bg {
+  fill: none;
+  stroke: #eee;
+  stroke-width: 16;
+}
+
+.progress {
+  fill: none;
+  stroke: #bf0000;
+  stroke-width: 16;
+  stroke-linecap: round;
+  stroke-dasharray: 565;
+}
+
+.center-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 34px;
   color: #bf0000;
+}
+
+.label {
+  text-align: center;
+  font-size: 14px;
+  color: #666;
+  margin-top: 8px;
+}
+
+/* ===== メニュー ===== */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  display: none;
+}
+
+.drawer {
+  position: fixed;
+  top: 0;
+  right: -280px;
+  width: 280px;
+  height: 100%;
   background: #fff;
+  transition: right 0.3s;
+}
+
+.drawer.open { right: 0; }
+.overlay.show { display: block; }
+
+.drawer-header {
+  background: #bf0000;
+  color: #fff;
+  padding: 14px 16px;
+  display: flex;
+  justify-content: space-between;
 }
 </style>
 </head>
 
 <body>
 
-<!-- サイドバー -->
-<div class="sidebar" id="sidebar">
-  <a href="index.html">トップ</a>
-  <a href="mypage.html">マイページ</a>
-  <a href="#">お申し込み履歴</a>
-  <a href="nmail.html">Nメール</a>
-</div>
-
 <!-- ヘッダー -->
 <div class="header">
-  <div>通信量確認</div>
-  <div class="menu-btn" onclick="toggleMenu()">☰</div>
+  <div>Rakuten Mobile</div>
+  <div onclick="openMenu()">☰</div>
+</div>
+
+<!-- 重要なお知らせ -->
+<div class="notice" onclick="toggleNotice()">
+  <div class="notice-title">⚠️ 重要なお知らせ</div>
+  <div class="notice-detail" id="noticeDetail">
+    一部地域で通信が不安定になる場合があります。（模擬表示）
+  </div>
 </div>
 
 <div class="container">
 
-  <!-- 重要なお知らせ -->
-  <div class="notice">
-    【重要】システムメンテナンスのお知らせ
-  </div>
-
   <!-- 利用料金 -->
   <div class="card">
-    <div class="card-title">利用料金（今月）</div>
-    <div class="fee">0 円</div>
+    <div class="card-title">今月のご利用料金</div>
+    <div class="price">¥2,980</div>
+    <div class="sub">無制限プラン（模擬）</div>
+  </div>
+
+  <!-- Nメール（常に同一遷移） -->
+  <div class="card">
+    <div class="card-title">Nメール</div>
+    <div class="sub">
+      独自ドメインのセキュアメールサービス
+    </div>
+    <button class="action-btn" onclick="openNMail()">
+      申込・詳細
+    </button>
+  </div>
+
+  <!-- 通信情報 -->
+  <div class="card">
+    <div>提供通信：Rakuten</div>
+    <div>通信方式：5G</div>
+    <div>通信状態：良好</div>
   </div>
 
   <!-- データ通信量 -->
   <div class="card">
-    <div class="usage-header">
-      <div id="usageLabel">高速データ通信</div>
-      <select id="monthSelect" onchange="changeMonth()"></select>
+    <div class="card-title">
+      データ通信量
+      <select id="monthSelect" onchange="changeMonth()">
+        <option>2026年2月</option>
+        <option>2026年1月</option>
+        <option>2025年12月</option>
+      </select>
     </div>
 
-    <div class="circle">
-      無制限
+    <div class="circle-wrap">
+      <svg width="220" height="220">
+        <circle class="bg" cx="110" cy="110" r="90"/>
+        <circle class="progress" cx="110" cy="110" r="90"/>
+      </svg>
+      <div class="center-text">無制限</div>
     </div>
-  </div>
 
-  <!-- Nメール -->
-  <div class="card">
-    <div class="card-title">Nメール</div>
-    <a href="nmail.html" class="btn btn-outline">申込 / 詳細</a>
+    <div class="label" id="usageLabel">
+      高速データ通信（2026年2月）
+    </div>
   </div>
 
   <!-- 電波改善 -->
   <div class="card">
     <div class="card-title">電波改善のご要望</div>
-    <a
-      href="https://tayori.com/faq/d41902257c3dfd4f6c51189d13b3e6be00b13c51/detail/d660d53018622fb61182e3f0eb1ec61d69592c70/"
-      class="btn btn-outline"
-      target="_blank"
-    >
-      フォームへ進む
-    </a>
+    <button class="action-btn" onclick="openSignalForm()">
+      電波改善フォームへ ↗
+    </button>
   </div>
 
 </div>
 
+<!-- メニュー -->
+<div class="overlay" onclick="closeMenu()"></div>
+<div class="drawer">
+  <div class="drawer-header">
+    <div>メニュー</div>
+    <div onclick="closeMenu()">✕</div>
+  </div>
+</div>
+
 <script>
-/* ===== サイドメニュー ===== */
-function toggleMenu() {
-  document.getElementById('sidebar').classList.toggle('open');
-}
-
-/* ===== 月プルダウン自動生成 ===== */
-const monthSelect = document.getElementById('monthSelect');
-const usageLabel = document.getElementById('usageLabel');
-
-function generateMonths(count = 3) {
-  const now = new Date();
-  monthSelect.innerHTML = '';
-
-  for (let i = 0; i < count; i++) {
-    const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
-    const label = `${d.getFullYear()}年${d.getMonth() + 1}月`;
-
-    const option = document.createElement('option');
-    option.value = label;
-    option.textContent = label;
-    monthSelect.appendChild(option);
-  }
-
-  updateUsageLabel(monthSelect.value);
+function toggleNotice() {
+  const d = document.getElementById('noticeDetail');
+  d.style.display = d.style.display === 'block' ? 'none' : 'block';
 }
 
 function changeMonth() {
-  updateUsageLabel(monthSelect.value);
+  const s = document.getElementById('monthSelect');
+  document.getElementById('usageLabel').textContent =
+    `高速データ通信（${s.value}）`;
 }
 
-function updateUsageLabel(month) {
-  usageLabel.textContent = `高速データ通信（${month}）`;
+function openNMail() {
+  location.href = "nmail.html";
 }
 
-/* 初期化 */
-generateMonths();
+function openSignalForm() {
+  window.open(
+    "https://tayori.com/faq/d41902257c3dfd4f6c51189d13b3e6be00b13c51/detail/d660d53018622fb61182e3f0eb1ec61d69592c70/",
+    "_blank"
+  );
+}
+
+function openMenu() {
+  document.querySelector('.drawer').classList.add('open');
+  document.querySelector('.overlay').classList.add('show');
+}
+
+function closeMenu() {
+  document.querySelector('.drawer').classList.remove('open');
+  document.querySelector('.overlay').classList.remove('show');
+}
 </script>
 
 </body>
