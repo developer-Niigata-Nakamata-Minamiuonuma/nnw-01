@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Rakuten Mobile（模擬）</title>
 
+<!-- フォント：M PLUS 1 SemiBold 600 -->
 <link href="https://fonts.googleapis.com/css2?family=M+PLUS+1:wght@600&display=swap" rel="stylesheet">
 
 <style>
@@ -38,12 +39,24 @@ body {
 }
 
 .card-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   font-size: 13px;
   color: #666;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
 }
 
-/* ===== 円 ===== */
+.card-title select {
+  border: none;
+  background: #f5f5f5;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-family: 'M PLUS 1', sans-serif;
+  font-size: 12px;
+}
+
+/* ===== 円表示 ===== */
 .circle-wrap {
   position: relative;
   width: 220px;
@@ -51,7 +64,9 @@ body {
   margin: 10px auto 0;
 }
 
-svg { transform: rotate(-90deg); }
+svg {
+  transform: rotate(-90deg);
+}
 
 .bg {
   fill: none;
@@ -83,7 +98,7 @@ svg { transform: rotate(-90deg); }
   margin-top: 8px;
 }
 
-/* ===== ハンバーガー ===== */
+/* ===== ハンバーガーメニュー ===== */
 .overlay {
   position: fixed;
   inset: 0;
@@ -101,8 +116,13 @@ svg { transform: rotate(-90deg); }
   transition: right 0.3s ease;
 }
 
-.drawer.open { right: 0; }
-.overlay.show { display: block; }
+.drawer.open {
+  right: 0;
+}
+
+.overlay.show {
+  display: block;
+}
 
 .drawer-header {
   background: #bf0000;
@@ -133,40 +153,58 @@ svg { transform: rotate(-90deg); }
 
 <body>
 
+<!-- ヘッダー -->
 <div class="header">
   <div>Rakuten Mobile</div>
   <div onclick="openMenu()">☰</div>
 </div>
 
+<!-- メイン -->
 <div class="container">
 
+  <!-- 通信情報 -->
   <div class="card">
     <div>提供通信：Rakuten</div>
     <div>通信方式：5G</div>
     <div>通信状態：良好</div>
   </div>
 
+  <!-- データ通信量 -->
   <div class="card">
-    <div class="card-title">今月のデータ通信量（2026年2月）</div>
+    <div class="card-title">
+      データ通信量
+      <select id="monthSelect" onchange="changeMonth()">
+        <option value="2026-02">2026年2月</option>
+        <option value="2026-01">2026年1月</option>
+        <option value="2025-12">2025年12月</option>
+      </select>
+    </div>
+
     <div class="circle-wrap">
       <svg width="220" height="220">
-        <circle class="bg" cx="110" cy="110" r="90"/>
-        <circle class="progress" cx="110" cy="110" r="90"/>
+        <circle class="bg" cx="110" cy="110" r="90"></circle>
+        <circle class="progress" cx="110" cy="110" r="90"></circle>
       </svg>
       <div class="center-text">無制限</div>
     </div>
-    <div class="label">高速データ通信</div>
+
+    <div class="label" id="usageLabel">
+      高速データ通信（2026年2月）
+    </div>
   </div>
 
+  <!-- 注意書き -->
   <div class="card">
-    ※ 本画面はデモ表示です。<br>
+    ※ 本画面はデモ（模擬）表示です。<br>
     実際の通信量・速度を示すものではありません。
   </div>
 
 </div>
 
+<!-- オーバーレイ -->
 <div class="overlay" onclick="closeMenu()"></div>
 
+<!-- ドロワー -->
 <div class="drawer">
   <div class="drawer-header">
     <div>メニュー</div>
@@ -186,11 +224,26 @@ function openMenu() {
   document.querySelector('.drawer').classList.add('open');
   document.querySelector('.overlay').classList.add('show');
 }
+
 function closeMenu() {
   document.querySelector('.drawer').classList.remove('open');
   document.querySelector('.overlay').classList.remove('show');
+}
+
+function changeMonth() {
+  const select = document.getElementById('monthSelect');
+  const label = document.getElementById('usageLabel');
+
+  const map = {
+    "2026-02": "高速データ通信（2026年2月）",
+    "2026-01": "高速データ通信（2026年1月）",
+    "2025-12": "高速データ通信（2025年12月）"
+  };
+
+  label.textContent = map[select.value];
 }
 </script>
 
 </body>
 </html>
+
