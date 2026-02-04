@@ -58,29 +58,27 @@ body {
   margin-top: 4px;
 }
 
-/* ===== ボタン ===== */
-.action-btn {
-  width: 100%;
-  border: none;
-  background: #bf0000;
-  color: #fff;
+/* ===== ボタン（aタグ対応） ===== */
+.action-link,
+.link-outline {
+  display: block;
+  text-align: center;
+  text-decoration: none;
   padding: 12px;
   border-radius: 10px;
   font-size: 14px;
-  cursor: pointer;
   margin-top: 10px;
 }
 
-.link-btn {
-  width: 100%;
+.action-link {
+  background: #bf0000;
+  color: #fff;
+}
+
+.link-outline {
   border: 1px solid #bf0000;
-  background: #fff;
   color: #bf0000;
-  padding: 12px;
-  border-radius: 10px;
-  font-size: 14px;
-  cursor: pointer;
-  margin-top: 10px;
+  background: #fff;
 }
 </style>
 </head>
@@ -89,7 +87,7 @@ body {
 
 <!-- ヘッダー -->
 <div class="header">
-  <div class="back" onclick="goBack()">←</div>
+  <div class="back" onclick="history.back()">←</div>
   <div>Nメール</div>
 </div>
 
@@ -108,20 +106,36 @@ body {
     <div class="sub">
       Webメールにログインしてメールを確認できます
     </div>
-    <button class="action-btn" onclick="openMailLogin()">
+
+    <!-- 実リンク（指定済み） -->
+    <a
+      class="action-link"
+      href="https://s323.xrea.com/mailr/?_gl=1*1597l0u*_gcl_au*MTgxNDcyMDU4Ni4xNzYwMTMxMzM2LjE0MDQwNzYyNjQuMTc2MDMwNjQwMi4xNzYwMzA3MDYz*_ga*NjQ4NDg3NTU3LjE3NjAxMzEzMzY.*_ga_J8YE7Q8ZQD*czE3NjAzMDU0MjEkbzgkZzEkdDE3NjAzMDcxMjYkajEkbDAkaDI4NzQ0ODUwMg.."
+      target="_blank"
+      rel="noopener"
+    >
       メールにログイン
-    </button>
+    </a>
   </div>
 
   <!-- アプリ / 設定 -->
   <div class="card">
     <div class="card-title">メールアプリ・設定方法</div>
-    <button class="link-btn" onclick="openAppDownload()">
+
+    <!-- ↓ 後でURL差し替え -->
+    <a
+      class="link-outline"
+      href="#"
+    >
       メールアプリのダウンロード
-    </button>
-    <button class="link-btn" onclick="openMailSetup()">
+    </a>
+
+    <a
+      class="link-outline"
+      href="#"
+    >
       設定方法を見る
-    </button>
+    </a>
   </div>
 
   <!-- Googleアカウント -->
@@ -130,9 +144,14 @@ body {
     <div class="sub">
       NメールをGoogleアカウントとして利用できます
     </div>
-    <button class="action-btn" onclick="openGoogleApply()">
+
+    <!-- ↓ 後で申請URLを設定 -->
+    <a
+      class="action-link"
+      href="#"
+    >
       Googleアカウント発行申請
-    </button>
+    </a>
   </div>
 
   <!-- 注意 -->
@@ -141,33 +160,6 @@ body {
   </div>
 
 </div>
-
-<script>
-function goBack() {
-  history.back();
-}
-
-/* ===== メールログイン ===== */
-function openMailLogin() {
-  window.open(
-    "https://s323.xrea.com/mailr/?_gl=1*1597l0u*_gcl_au*MTgxNDcyMDU4Ni4xNzYwMTMxMzM2LjE0MDQwNzYyNjQuMTc2MDMwNjQwMi4xNzYwMzA3MDYz*_ga*NjQ4NDg3NTU3LjE3NjAxMzEzMzY.*_ga_J8YE7Q8ZQD*czE3NjAzMDU0MjEkbzgkZzEkdDE3NjAzMDcxMjYkajEkbDAkaDI4NzQ0ODUwMg..",
-    "_blank"
-  );
-}
-
-/* ===== ダミーリンク ===== */
-function openAppDownload() {
-  alert('メールアプリのダウンロード（模擬）');
-}
-
-function openMailSetup() {
-  alert('設定方法サイト（模擬）');
-}
-
-function openGoogleApply() {
-  alert('Googleアカウント発行申請（模擬）');
-}
-</script>
 
 </body>
 </html>
